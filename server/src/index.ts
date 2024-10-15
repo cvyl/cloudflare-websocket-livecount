@@ -148,7 +148,7 @@ interface Env {
 	}
 
 	// Use the env variable for counter ID (grab from vars)
-	const counterId = env.counter.idFromName(env.nameId); // Dynamic room ID from environment variable
+	const counterId = env.counter.idFromName(env.nameId || "counter"); // Default to "counter" if no name provided
 	const counter = env.counter.get(counterId);
 
 	return await counter.fetch(request);
