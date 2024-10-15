@@ -5,6 +5,10 @@ node_modules
 .pnp
 .pnp.js
 
+# Monorepo
+**/node_modules
+**/.wrangler
+
 # Local env files
 .env
 .env.local

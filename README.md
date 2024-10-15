@@ -1,81 +1,138 @@
-# Turborepo starter
+# Real-time Visitor Counter in Turbo Monorepo
 
-This is an official starter Turborepo.
+This project is a **real-time visitor counter** built using **Vue 3**, **Vite**, **Cloudflare Durable Objects**, and WebSockets, all organized within a **Turbo Monorepo**. The app tracks visitors in real-time across different "rooms" (URLs) and displays total visitors across all active rooms.
 
-## Using this example
+## Demo
 
-Run the following command:
+<https://demo-serverless-livecount-client.pages.dev>
+
+## Project Overview
+
+This project is organized as a monorepo using **Turborepo** for managing both the front-end (Vue app) and back-end (Cloudflare Worker) within a single repository. The Vue application interacts with a Cloudflare Worker, which uses Durable Objects to track active rooms and visitors in real-time.
+
+- **Frontend**: Vue 3 + Vite
+- **Backend**: Cloudflare Workers + Durable Objects
+- **Monorepo Tool**: Turborepo
+
+## Features
+
+- Real-time visitor counting per room (each unique URL is treated as a room).
+- Total visitor count across all active rooms.
+- WebSocket-based communication between Vue front-end and Cloudflare Worker.
+- Dynamic switching between local (development) and production WebSocket servers.
+- Turbo Monorepo structure for efficient builds and management.
+
+## Prerequisites
+
+- **Node.js** and **pnpm** installed.
+- **Cloudflare Account** with Workers enabled.
+- **Turborepo** installed globally:
+
+  ```bash
+  pnpm install turbo -g
+  ```
+
+## Project Structure
 
 ```sh
-npx create-turbo@latest
+.
+| 
+├── client/                # Vue 3 app with Vite
+├── server/                # Cloudflare Worker with Durable Objects
+├── turbo.json             # Turbo configuration file
+├── package.json           # Root package.json for managing dependencies
+└── README.md              # This README file
 ```
 
-## What's inside?
+## Installation
 
-This Turborepo includes the following packages/apps:
+### 1. Clone the Repository
 
-### Apps and Packages
+### 2. Install Dependencies
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+Install dependencies for the entire monorepo:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+pnpm install
 ```
 
-### Develop
+### 3. Install Turbo CLI & Wrangler (If you haven't already)
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```bash
+pnpm install turbo -g
+pnpm install wrangler -g
 ```
 
-### Remote Caching
+### 4. Configure Cloudflare Worker
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+wrangler login
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+And edit the `wrangler.toml` file in both `server/` and `client/`.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+## Running Locally
 
+```bash
+turbo dev
 ```
-npx turbo link
+
+This will start the Cloudflare Worker on `http://localhost:8787`.
+
+### 3. WebSocket Behaviour
+
+The application is designed to switch between WebSocket URLs depending on the environment:
+
+- **Development**: Uses `ws://localhost:8787` for WebSockets.
+- **Production**: Uses `wss://your-worker-url.workers.dev` for WebSockets (edit in client).
+
+## Deployment
+
+### Deploy the Repository
+
+Navigate to the `apps/worker` directory:
+
+```bash
+turbo deploy
 ```
 
-## Useful Links
+## Environment Variables
 
-Learn more about the power of Turborepo:
+### Cloudflare Worker (`wrangler.toml`)
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```toml
+[vars]
+nameId = "your-domain.com"
+```
+
+This variable is used by the worker to dynamically assign a `counterId`.
+
+## Testing
+
+1. Open the Vue frontend at `http://localhost:5175`.
+2. Open multiple browser tabs or devices to see real-time visitor counts update dynamically.
+3. Ensure rooms are created dynamically based on the URL (e.g., `/about`, `/contact`).
+
+## Troubleshooting
+
+- If you experience issues with WebSocket connections, ensure that:
+  - The WebSocket URL is correctly pointing to either `localhost:8787` (for dev) or your Cloudflare Worker URL (for production).
+  - Your Cloudflare Worker is deployed and accessible.
+
+## Licence
+
+This project is licensed under the MIT Licence.
+
+## Contributing
+
+Feel free to fork this repository and submit pull requests if you'd like to contribute!
+
+---
+
+### Key Sections
+
+1. **Overview**: Explains what the project is.
+2. **Installation**: How to set up the project locally and run it.
+3. **Deployment**: Instructions for deploying both the front-end and the Cloudflare Worker.
+4. **Environment Variables**: Documented where to configure environment variables, especially for the worker.
+5. **Troubleshooting**: Common issues with WebSocket connections and how to resolve them.

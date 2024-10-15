@@ -1,0 +1,8 @@
+Monorepo
+WebSockets
+Vite
+Turborepo
+WebSocket-based
+WebSocket
+monorepo
+pnpm
