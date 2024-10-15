@@ -118,3 +118,7 @@ This variable is used by the worker to dynamically assign a `counterId`.
 - If you experience issues with WebSocket connections, ensure that:
   - The WebSocket URL is correctly pointing to either `localhost:8787` (for dev) or your Cloudflare Worker URL (for production).
   - Your Cloudflare Worker is deployed and accessible.
+
+## Contributing
+
+Feel free to fork this repository and submit pull requests if you'd like to contribute!
