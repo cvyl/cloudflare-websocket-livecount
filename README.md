@@ -4,7 +4,7 @@ This project is a **real-time visitor counter** built using **Vue 3**, **Vite**,
 
 ## Demo
 
-<https://demo-serverless-livecount-client.pages.dev>
+<https://wsdemo.cvyl.me>
 
 ## Project Overview
 
