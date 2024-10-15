@@ -1,5 +1,5 @@
 interface Env {
-	counter: DurableObjectNamespace;
+	demoCounter: DurableObjectNamespace;
 	nameId: string; // The environment variable from which we will get the counter ID
   }
 
@@ -148,8 +148,8 @@ interface Env {
 	}
 
 	// Use the env variable for counter ID (grab from vars)
-	const counterId = env.counter.idFromName(env.nameId || "counter"); // Default to "counter" if no name provided
-	const counter = env.counter.get(counterId);
+	const counterId = env.demoCounter.idFromName(env.nameId || "counter"); // Default to "counter" if no name provided
+	const counter = env.demoCounter.get(counterId);
 
 	return await counter.fetch(request);
   }

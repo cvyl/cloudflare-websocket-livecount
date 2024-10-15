@@ -64,7 +64,7 @@ nameId = "cvyl.me"
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
 [durable_objects]
-bindings = [{ name = "demo-counter", class_name = "Counter" }]
+bindings = [{ name = "demoCounter", class_name = "Counter" }]
 
 [[migrations]]
 tag = "v1" # Should be unique for each entry
