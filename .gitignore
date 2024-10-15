@@ -8,6 +8,7 @@ node_modules
 # Monorepo
 **/node_modules
 **/.wrangler
+**/.turbo
 
 # Local env files
 .env
